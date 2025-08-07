@@ -12,7 +12,7 @@ exports.handler = async function(event, context) {
     }
 
     // The Gemini API endpoint
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.0-pro:generateContent?key=${GEMINI_API_KEY}`;
     
     try {
         // Pass the request body from your frontend to the Gemini API
@@ -48,3 +48,4 @@ exports.handler = async function(event, context) {
         };
     }
 };
+
