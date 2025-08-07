@@ -26,6 +26,8 @@ exports.handler = async function(event, context) {
 
         if (!response.ok) {
             const errorBody = await response.text();
+            // ADD THIS LINE to log the specific error from Google
+            console.error('Error from Google API:', errorBody); 
             return { statusCode: response.status, body: errorBody };
         }
 
@@ -38,7 +40,8 @@ exports.handler = async function(event, context) {
         };
 
     } catch (error) {
-        console.error('Error calling Gemini API:', error);
+        // MODIFY THIS LINE to log any other function error
+        console.error('Error in function execution:', error); 
         return {
             statusCode: 500,
             body: JSON.stringify({ error: error.message }),
