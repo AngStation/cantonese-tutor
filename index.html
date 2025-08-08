@@ -177,6 +177,7 @@
         let recognition;
         let isListening = false;
         let playbackRate = 1.0;
+        let finalTranscriptHolder = ''; // Holds the finalized text between pauses
 
         // --- SPEECH SYNTHESIS & RECOGNITION ---
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -194,12 +195,9 @@
             if (!window.speechSynthesis) return;
 
             const utterance = new SpeechSynthesisUtterance(text);
-            // Force the Cantonese voice for all speech to improve consistency
-            // when mixing English and Cantonese.
             utterance.voice = cantoneseVoice;
             utterance.lang = 'zh-HK';
-            
-            utterance.rate = playbackRate; // Use the state variable for speed
+            utterance.rate = playbackRate;
             utterance.pitch = 1.0;
 
             utterance.onstart = () => setStatus('Speaking...');
@@ -222,13 +220,35 @@
             }
 
             recognition = new SpeechRecognition();
-            recognition.continuous = false;
+            recognition.continuous = true;
+            recognition.interimResults = true;
             recognition.lang = 'yue-Hant-HK';
-            recognition.interimResults = false;
 
             recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                userInput.value = transcript;
+                let interim_transcript = '';
+                // Loop through the results from the current event
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    // If the result is final, append it to our holder
+                    if (event.results[i].isFinal) {
+                        let final_part = event.results[i][0].transcript;
+                        // Replace spoken punctuation (English)
+                        final_part = final_part.replace(/\speriod/ig, '.');
+                        final_part = final_part.replace(/\scomma/ig, ',');
+                        final_part = final_part.replace(/\squestion mark/ig, '?');
+                        final_part = final_part.replace(/\sexclamation mark/ig, '!');
+                        final_part = final_part.replace(/\sexclamation point/ig, '!');
+                        // Replace spoken punctuation (Cantonese)
+                        final_part = final_part.replace(/句號/g, '.');
+                        final_part = final_part.replace(/逗號/g, ',');
+                        final_part = final_part.replace(/問號/g, '?');
+                        final_part = final_part.replace(/感嘆號/g, '!');
+                        finalTranscriptHolder += final_part;
+                    } else {
+                        interim_transcript += event.results[i][0].transcript;
+                    }
+                }
+                // Update the input field with the combined finalized text and the current interim text
+                userInput.value = finalTranscriptHolder + interim_transcript;
             };
 
             recognition.onstart = () => {
@@ -241,6 +261,8 @@
                 isListening = false;
                 micButton.classList.remove('is-listening');
                 setStatus('Your turn...');
+                // Once recognition ends, update the holder with the final value
+                finalTranscriptHolder = userInput.value;
             };
 
             recognition.onerror = (event) => {
@@ -330,7 +352,6 @@
 
         // --- GEMINI API CALLS ---
         async function callGemini(prompt) {
-            // This now securely calls your Netlify function instead of the Gemini API directly.
             const apiUrl = '/.netlify/functions/get-ai-response';
             const payload = {
                 contents: prompt,
@@ -359,7 +380,6 @@
             ];
 
             try {
-                // *** BUG FIX: Pass the correct prompt with history to the AI ***
                 const aiText = await callGemini(tutorPrompt); 
                 chatHistory.push({ role: "model", parts: [{ text: aiText }] });
                 addMessageToLog('ai', aiText);
@@ -407,7 +427,6 @@
             }
 
             const lines = ['Cantonese Tutor Transcript\n==========================\n'];
-            // Skip the initial system prompt
             const conversation = chatHistory.slice(1); 
 
             conversation.forEach(entry => {
@@ -442,6 +461,8 @@
             const userText = userInput.value.trim();
             if (!userText) return;
             addMessageToLog('user', userText);
+            // Clear the holder for the next AI response
+            finalTranscriptHolder = ''; 
             userInput.value = '';
             getAIResponse(userText);
         });
@@ -450,6 +471,9 @@
             if (isListening) {
                 recognition.stop();
             } else {
+                // Clear the holder when starting a new recording
+                finalTranscriptHolder = ''; 
+                userInput.value = '';
                 recognition.start();
             }
         });
@@ -472,6 +496,5 @@
         };
     </script>
     
-    <!-- Ko-fi Widget (REMOVED FROM HERE) -->
 </body>
 </html>
