@@ -194,12 +194,11 @@
             if (!window.speechSynthesis) return;
 
             const utterance = new SpeechSynthesisUtterance(text);
-            if (/^[a-zA-Z\s.,?!']{10,}/.test(text)) {
-                utterance.lang = 'en-US';
-            } else {
-                utterance.voice = cantoneseVoice;
-                utterance.lang = 'zh-HK';
-            }
+            // Force the Cantonese voice for all speech to improve consistency
+            // when mixing English and Cantonese.
+            utterance.voice = cantoneseVoice;
+            utterance.lang = 'zh-HK';
+            
             utterance.rate = playbackRate; // Use the state variable for speed
             utterance.pitch = 1.0;
 
@@ -462,7 +461,7 @@
         
         resetButton.addEventListener('click', resetConversation);
         exportButton.addEventListener('click', exportTranscript);
-        closeModalButton.addEventListener('click', () => explanationModal.classList.add('hidden'));
+        closeModalButton.addEventListener('click', () => explanationModal.classList.add('hidden');
 
         // --- INITIALIZATION ---
         window.onload = () => {
@@ -472,7 +471,5 @@
             resetConversation();
         };
     </script>
-    
-    <!-- Ko-fi Widget (REMOVED FROM HERE) -->
 </body>
 </html>
