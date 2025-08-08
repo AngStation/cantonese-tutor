@@ -84,46 +84,37 @@
 <body class="bg-gray-200 flex items-center justify-center min-h-screen">
 
     <div class="w-full max-w-lg mx-auto flex flex-col h-[90vh] bg-white rounded-2xl shadow-2xl">
-        <!-- Header -->
         <div class="flex justify-between items-center text-center p-4 border-b border-gray-200">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 w-1/3">
                  <button id="reset-button" title="Reset Conversation" class="text-gray-400 hover:text-indigo-600 transition-colors p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 110 2H4a1 1 0 01-1-1V4a1 1 0 011-1zm10 8a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 111.885-.666A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101z" clip-rule="evenodd" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 110 2H4a1 1 0 01-1-1V4a1 1 0 011-1zm10 8a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 111.885-.666A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101z" clip-rule="evenodd" /></svg>
                 </button>
                  <button id="export-button" title="Export Transcript" class="text-gray-400 hover:text-indigo-600 transition-colors p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 5a1 1 0 011-1h1a1 1 0 010 2H5a1 1 0 01-1-1zm11 0a1 1 0 00-1 1v1a1 1 0 102 0V6a1 1 0 00-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM10 15a1 1 0 00-1 1v1a1 1 0 102 0v-1a1 1 0 00-1-1z" />
-                      <path d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V4a1 1 0 00-1-1H3zm14 14H3V4h14v13z" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 5a1 1 0 011-1h1a1 1 0 010 2H5a1 1 0 01-1-1zm11 0a1 1 0 00-1 1v1a1 1 0 102 0V6a1 1 0 00-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM10 15a1 1 0 00-1 1v1a1 1 0 102 0v-1a1 1 0 00-1-1z" /><path d="M3 3a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V4a1 1 0 00-1-1H3zm14 14H3V4h14v13z" /></svg>
                 </button>
             </div>
             <div class="flex-1">
                 <h1 class="text-2xl font-bold text-gray-800">Cantonese AI Tutor</h1>
                 <p id="status-text" class="text-gray-500 text-sm mt-1 transition-colors">Your lesson is ready</p>
             </div>
-            <div class="w-20"></div> <!-- Spacer to balance the header -->
+            <div class="w-1/3 flex justify-end items-center gap-2">
+                <label for="speed-slider" class="text-xs text-gray-500">Speed</label>
+                <input type="range" id="speed-slider" min="0.5" max="2" step="0.1" value="1" class="w-20 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                <span id="speed-value" class="text-xs text-gray-700 font-mono w-8 text-left">1.0x</span>
+            </div>
         </div>
 
-        <!-- Chat Log -->
         <div id="chat-log" class="flex-1 p-6 overflow-y-auto bg-slate-100">
-            <!-- Messages will be appended here -->
-        </div>
-        
-        <!-- Control Area -->
+            </div>
+
         <div class="p-4 border-t border-gray-200">
             <form id="chat-form" class="flex items-center space-x-2">
                  <input id="user-input" type="text" placeholder="Type or click mic to speak..." autocomplete="off" class="w-full px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
                  <button id="mic-button" type="button" title="Toggle microphone" class="bg-gray-200 text-gray-600 hover:bg-gray-300 p-3 rounded-full transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
                 </button>
                 <button id="send-button" type="submit" title="Send message" class="bg-indigo-600 text-white p-3 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:bg-gray-400">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                    </svg>
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" /></svg>
                 </button>
             </form>
              <div id="mic-error" class="text-center text-red-500 mt-2 text-xs hidden">
@@ -131,8 +122,7 @@
             </div>
         </div>
     </div>
-    
-    <!-- Explanation Modal -->
+
     <div id="explanation-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50" onclick="this.classList.add('hidden')">
         <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full" onclick="event.stopPropagation()">
             <h3 class="text-xl font-bold text-indigo-700 mb-4">✨ Explanation</h3>
@@ -155,12 +145,15 @@
         const micError = document.getElementById('mic-error');
         const resetButton = document.getElementById('reset-button');
         const exportButton = document.getElementById('export-button');
+        const speedSlider = document.getElementById('speed-slider');
+        const speedValue = document.getElementById('speed-value');
 
         // --- STATE ---
         let cantoneseVoice = null;
         let chatHistory = [];
         let recognition;
         let isListening = false;
+        let playbackRate = 1.0;
 
         // --- SPEECH SYNTHESIS & RECOGNITION ---
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -184,14 +177,19 @@
                 utterance.voice = cantoneseVoice;
                 utterance.lang = 'zh-HK';
             }
-            utterance.rate = 0.9;
+            utterance.rate = playbackRate; // Use the state variable for speed
             utterance.pitch = 1.0;
-            
+
             utterance.onstart = () => setStatus('Speaking...');
             utterance.onend = () => setStatus('Your turn...');
-            
+
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
+        }
+        
+        function skipTTS() {
+            window.speechSynthesis.cancel();
+            setStatus('Your turn...');
         }
 
         function setupSpeechRecognition() {
@@ -200,7 +198,7 @@
                 micError.classList.remove('hidden');
                 return;
             }
-            
+
             recognition = new SpeechRecognition();
             recognition.continuous = false;
             recognition.lang = 'yue-Hant-HK';
@@ -210,7 +208,7 @@
                 const transcript = event.results[0][0].transcript;
                 userInput.value = transcript;
             };
-            
+
             recognition.onstart = () => {
                 isListening = true;
                 micButton.classList.add('is-listening');
@@ -259,7 +257,7 @@
                 const messageBubble = document.createElement('div');
                 messageBubble.className = 'message-bubble ai-message';
                 messageBubble.textContent = textToSpeak;
-                
+
                 const buttonContainer = document.createElement('div');
                 buttonContainer.className = 'flex flex-col justify-center items-center gap-2 pl-1';
 
@@ -269,6 +267,12 @@
                 replayButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>`;
                 replayButton.onclick = () => speak(textToSpeak);
 
+                const skipButton = document.createElement('button');
+                skipButton.className = 'action-btn';
+                skipButton.title = 'Skip TTS';
+                skipButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>`;
+                skipButton.onclick = () => skipTTS();
+
                 const explainButton = document.createElement('button');
                 explainButton.className = 'action-btn';
                 explainButton.title = 'Explain this phrase';
@@ -276,8 +280,9 @@
                 explainButton.onclick = () => getExplanation(textToSpeak);
 
                 buttonContainer.appendChild(replayButton);
+                buttonContainer.appendChild(skipButton);
                 buttonContainer.appendChild(explainButton);
-                
+
                 aiContainer.appendChild(messageBubble);
                 aiContainer.appendChild(buttonContainer);
                 aiMessageWrapper.appendChild(aiContainer);
@@ -293,14 +298,14 @@
                     englishElement.textContent = parts[2];
                     aiMessageWrapper.appendChild(englishElement);
                 }
-                
+
                 messageWrapper.appendChild(aiMessageWrapper);
             }
 
             chatLog.appendChild(messageWrapper);
             chatLog.scrollTop = chatLog.scrollHeight;
         }
-        
+
         // --- GEMINI API CALLS ---
         async function callGemini(prompt) {
             // This now securely calls your Netlify function instead of the Gemini API directly.
@@ -347,7 +352,7 @@
                 micButton.disabled = false;
             }
         }
-        
+
         async function getExplanation(textToExplain) {
             setStatus('Explaining...');
             explanationContent.textContent = 'Loading...';
@@ -425,6 +430,11 @@
                 recognition.start();
             }
         });
+
+        speedSlider.addEventListener('input', (e) => {
+            playbackRate = parseFloat(e.target.value);
+            speedValue.textContent = `${playbackRate.toFixed(1)}x`;
+        });
         
         resetButton.addEventListener('click', resetConversation);
         exportButton.addEventListener('click', exportTranscript);
@@ -438,7 +448,5 @@
             resetConversation();
         };
     </script>
-    <!-- v2 - Forcing a new deployment -->
-</body>
+    </body>
 </html>
-
