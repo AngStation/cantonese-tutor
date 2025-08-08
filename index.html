@@ -351,6 +351,8 @@
             sendButton.disabled = true;
             micButton.disabled = true;
 
+            chatHistory.push({ role: "user", parts: [{ text: userText }] });
+
             const tutorPrompt = [
                 { role: "user", parts: [{ text: "You are a friendly, bilingual Cantonese tutor. Your student is a beginner. Your primary goal is to help them practice conversational Cantonese. However, you should switch to English for complex explanations, to clarify something, or if the student seems confused or asks for help in English. When you reply in Cantonese, ALWAYS use this exact format: 'Cantonese Characters | Jyutping Romanization | English Translation'. When you reply in English, just provide the plain English text without any special formatting."}]},
                 { role: "model", parts: [{ text: "Okay, I understand. I'm ready to help!"}]},
@@ -358,7 +360,8 @@
             ];
 
             try {
-                const aiText = await callGemini(tutorPrompt);
+                // *** BUG FIX: Pass the correct prompt with history to the AI ***
+                const aiText = await callGemini(tutorPrompt); 
                 chatHistory.push({ role: "model", parts: [{ text: aiText }] });
                 addMessageToLog('ai', aiText);
                 const textToSpeak = aiText.includes('|') ? aiText.split('|')[0].trim() : aiText;
