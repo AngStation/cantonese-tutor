@@ -1,4 +1,4 @@
-&lt;svg width=&quot;100&quot; height=&quot;100&quot; viewBox=&quot;0 0 100 100&quot; fill=&quot;none&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
-    &lt;circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;50&quot; fill=&quot;#4f46e5&quot;/&gt;
-    &lt;text x=&quot;50%&quot; y=&quot;50%&quot; dominant-baseline=&quot;central&quot; text-anchor=&quot;middle&quot; font-family=&quot;sans-serif&quot; font-size=&quot;60&quot; font-weight=&quot;bold&quot; fill=&quot;white&quot;&gt;粵&lt;/text&gt;
-&lt;/svg&gt;
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#4f46e5"/>
+    <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-family="sans-serif" font-size="60" font-weight="bold" fill="white">粵</text>
+</svg>
