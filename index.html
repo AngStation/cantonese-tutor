@@ -87,7 +87,7 @@
             transition: max-height 0.5s ease-in-out, opacity 0.3s ease-in-out;
             opacity: 1;
         }
-        #collapsible-about-text.hidden {
+        #collapsible-about-text.collapsed {
             max-height: 0;
             opacity: 0;
             margin-bottom: 0 !important;
@@ -95,6 +95,12 @@
         #user-input {
             resize: none;
             overflow-y: hidden;
+        }
+        #collapse-icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        #collapsible-about-text.collapsed + #collapse-toggle #collapse-icon {
+            transform: rotate(180deg);
         }
     </style>
 </head>
@@ -132,13 +138,19 @@
             <div id="collapsible-about-text">
                 <p class="mb-2">
                     Welcome to the Cantonese AI Tutor! This tool is designed to help you practice conversational Cantonese in a friendly, interactive way. Type a message or use the microphone to speak, and the AI will respond. You can get explanations for phrases, listen again, and even export your transcript.
-                    Ask the tutor for something to talk about/explore a topic or hit the ? button on the top left to suggest a random topic. Enjoy!
+                    Ask the tutor for something to talk about/explore a topic or hit the ? button on the top left to suggest a random topic. Enjoy! <span class="text-gray-400 italic">(tap this section to expand/collapse)</span>
                 </p>
                 <p class="mb-2">
                     Made by <a href="about.html" class="text-indigo-600 hover:underline font-semibold">AngStation</a>.
                 </p>
             </div>
-            <p class="mb-3">
+            <div id="collapse-toggle" class="text-center text-xs text-gray-400 pt-2">
+                <span id="collapse-text">Show Less...</span>
+                <svg id="collapse-icon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <p class="mb-3 mt-3">
                 If you have found use from this application, a Ko-fi would make my day!
             </p>
             <div class="flex justify-center">
@@ -198,6 +210,7 @@
         const suggestTopicButton = document.getElementById('suggest-topic-button');
         const aboutSection = document.getElementById('about-section');
         const collapsibleAboutText = document.getElementById('collapsible-about-text');
+        const collapseText = document.getElementById('collapse-text');
 
         // --- STATE ---
         let cantoneseVoice = null;
@@ -546,7 +559,12 @@
         suggestTopicButton.addEventListener('click', suggestTopic);
         closeModalButton.addEventListener('click', () => explanationModal.classList.add('hidden'));
         aboutSection.addEventListener('click', () => {
-            collapsibleAboutText.classList.toggle('hidden');
+            collapsibleAboutText.classList.toggle('collapsed');
+            if (collapsibleAboutText.classList.contains('collapsed')) {
+                collapseText.textContent = 'Show More...';
+            } else {
+                collapseText.textContent = 'Show Less...';
+            }
         });
 
         // --- INITIALIZATION ---
