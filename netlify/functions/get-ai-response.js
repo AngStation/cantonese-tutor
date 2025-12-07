@@ -17,7 +17,7 @@ exports.handler = async function (event) {
       throw new Error('API key is not set. Check Netlify environment variables.');
     }
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
     
     // The payload now correctly uses the 'chatHistory' variable for the 'contents' field.
     const payload = {
@@ -56,3 +56,4 @@ exports.handler = async function (event) {
     };
   }
 };
+
